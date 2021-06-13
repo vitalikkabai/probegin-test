@@ -1,0 +1,25 @@
+.company {
+    width: 480px;
+    border: 1px solid black;
+    min-width: 240px;
+}
+
+.companyFullName {
+    font-weight: bold;
+}
+
+.listItem {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.titleBox {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.deleteIcon {
+    position: absolute;
+    right: -12px;
+}
