@@ -8,7 +8,7 @@
     font-weight: bold;
 }
 
-.listItem {
+.listStack {
     list-style-type: none;
     padding-left: 0;
 }
@@ -22,4 +22,14 @@
 .deleteIcon {
     position: absolute;
     right: -12px;
+}
+
+.listItem {
+    display: flex;
+    align-items: center;
+    svg {
+        width: 16px;
+        height: 16px;
+        margin-left: 4px;
+    }
 }

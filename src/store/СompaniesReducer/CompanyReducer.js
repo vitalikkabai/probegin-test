@@ -1,8 +1,10 @@
 import { v4 as uuidv4 } from 'uuid';
 import {
-  SET_NEW_COMPANY,
+  ADD_NEW_COMPANY,
   REMOVE_COMPANY,
-  SET_NEW_SUBSIDIARY,
+  ADD_NEW_SUBSIDIARY,
+  EDIT_SUBSIDIARY,
+  REMOVE_SUBSIDIARY,
 } from './CompanyActionType';
 
 const initialState = {
@@ -104,9 +106,9 @@ const initialState = {
   ],
 };
 
-const СompaniesReducer = (state = initialState, action) => {
+const CompaniesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_NEW_COMPANY: {
+    case ADD_NEW_COMPANY: {
       return {
         ...state,
         companies: [...state.companies, action.payload],
@@ -120,29 +122,72 @@ const СompaniesReducer = (state = initialState, action) => {
         ],
       };
     }
-    case SET_NEW_SUBSIDIARY: {
+    case ADD_NEW_SUBSIDIARY: {
       const { companyId, ...newSubsidiary } = action.payload;
 
-			const companies = state.companies.map((company) => {
-				return company.id === companyId
-					? {
-						...company,
-						subsidiary: [
-							...company.subsidiary,
-							newSubsidiary,
-						],
-					}
-					: company;
-			});
+      const companies = state.companies.map(company => (
+        company.id === companyId
+          ? {
+            ...company,
+            subsidiary: [
+              ...company.subsidiary,
+              newSubsidiary,
+            ],
+          }
+          : company
+      ));
 
       return {
         ...state,
         companies,
       };
     }
+    case EDIT_SUBSIDIARY: {
+      const { companyId, ...editedSubsidiary } = action.payload;
+      const companies = state.companies.map(company => (
+        company.id === companyId
+          ? {
+            ...company,
+            subsidiary: [
+              ...company.subsidiary.filter(subsidiary => (
+                subsidiary.id !== editedSubsidiary.id
+              )),
+              editedSubsidiary,
+            ],
+          } : company
+      ));
+
+      console.log(companies);
+
+      return {
+        ...state,
+        companies,
+      };
+    }
+
+    case REMOVE_SUBSIDIARY: {
+      const { companyId, subsidiaryId } = action.payload;
+
+      const companies = state.companies.map(company => (
+        company.id === companyId
+          ? {
+            ...company,
+            subsidiary: [
+              ...company.subsidiary.filter(subsidiary => (
+                subsidiary.id !== subsidiaryId
+              )),
+            ],
+          } : company));
+
+      return {
+        ...state,
+        companies,
+      };
+    }
+
     default:
       return state;
   }
 };
 
-export default СompaniesReducer;
+export default CompaniesReducer;

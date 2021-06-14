@@ -1,51 +1,51 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { useFormik } from 'formik';
-import { v4 as uuidv4 } from 'uuid';
 import {
   Container,
   Typography,
   Box,
   Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  TextField,
-  DialogActions,
 } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import CloseIcon from '@material-ui/icons/Close';
 import {
   removeCompany,
-  setNewSubsidiary,
+  addNewSubsidiary,
+  editSubsidiary,
+  removeSubsidiary,
 } from '../../store/СompaniesReducer/CompanyActions';
-import classes from './Company.module.scss';
+import AddCompanyDialog from '../AddCompanyDialog';
+import classes from './company.module.scss';
 
-const Company = ({ company, removeCompany, setNewSubsidiary }) => {
-  const [openDialog, setOpenDialog] = useState(false);
-  const formik = useFormik({
-    initialValues: {
-      name: '',
-      income: '',
-    },
-    onSubmit: ({ name, income }) => {
-      setNewSubsidiary({
-        name,
-        income,
-        id: uuidv4(),
-        companyId: company.id,
-      });
-      setOpenDialog(!openDialog);
-    },
-  });
+const Company = ({
+  company, 
+  removeCompany, 
+  addNewSubsidiary, 
+  editSubsidiary,
+  removeSubsidiary,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [editCompanyData, setEditCompanyData] = useState({});
 
   const subsidiary = (company.subsidiary || []).map(element => (
-    <li key={element.id}>
+    <li key={element.id} className={classes.listItem}>
       <Typography variant="subtitle2" className={classes.companyFullName}>
         {element.name}
       </Typography>
+      <EditIcon
+        onClick={() => {
+          setEditCompanyData(element);
+          setIsOpen(!isOpen);
+        }}
+      />
+      <CloseIcon onClick={()=>{deleteSubsidiary(element.id)}}/>
     </li>
   ));
+
+  const deleteSubsidiary = (subsidiaryId) => {
+    removeSubsidiary({subsidiaryId, companyId: company.id})
+  }
 
   const deleteCompany = () => {
     removeCompany(company.id);
@@ -60,61 +60,39 @@ const Company = ({ company, removeCompany, setNewSubsidiary }) => {
         <DeleteIcon onClick={deleteCompany} className={classes.deleteIcon} />
       </Box>
 
-      <ul className={classes.listItem}>{subsidiary}</ul>
+      <ul className={classes.listStack}>{subsidiary}</ul>
       <Button
-        onClick={() => setOpenDialog(!openDialog)}
+        onClick={() => setIsOpen(!isOpen)}
         type="button"
         variant="outlined"
         color="primary"
       >
         ADD
       </Button>
-      <Dialog open={openDialog}>
-        <form onSubmit={formik.handleSubmit}>
-          <DialogTitle>Please enter subsidiaries information</DialogTitle>
-          <DialogContent>
-            <TextField
-              className={classes.input}
-              id="name"
-              name="name"
-              label="Company Name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
-            />
-
-            <TextField
-              className={classes.input}
-              required
-              id="income"
-              name="income"
-              label="Income"
-              value={formik.values.income}
-              onChange={formik.handleChange}
-              error={formik.touched.income && Boolean(formik.errors.income)}
-              helperText={formik.touched.income && formik.errors.income}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenDialog(!openDialog)} color="primary">
-              CANCEL
-            </Button>
-            <Button type="submit" color="primary">
-              ADD
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
+      <AddCompanyDialog
+        companyId={company.id}
+        data={editCompanyData}
+        onAdd={addNewSubsidiary}
+        onEdit={editSubsidiary}
+        isOpen={isOpen}
+        onClose={() => {
+          setIsOpen(false);
+          setEditCompanyData({});
+        }}
+      />
     </Container>
   );
 };
 
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  state,
+});
 
 const mapDispatchToProps = dispatch => ({
   removeCompany: companyId => dispatch(removeCompany(companyId)),
-  setNewSubsidiary: subsidiary => dispatch(setNewSubsidiary(subsidiary)),
+  addNewSubsidiary: subsidiary => dispatch(addNewSubsidiary(subsidiary)),
+  editSubsidiary: editedSubsidiary => dispatch(editSubsidiary(editedSubsidiary)),
+  removeSubsidiary: subsidiaryId => dispatch(removeSubsidiary(subsidiaryId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Company);

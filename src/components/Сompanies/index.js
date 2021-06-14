@@ -9,22 +9,23 @@ import {
   TextField,
   Container,
 } from '@material-ui/core';
-import { setNewCompany } from '../../store/СompaniesReducer/CompanyActions';
+import { addNewCompany } from '../../store/СompaniesReducer/CompanyActions';
 import Company from '../Company';
-import classes from './Companies.module.scss';
+import classes from './companies.module.scss';
 
-const Сompanies = ({ companiesList, setNewCompany }) => {
+const Сompanies = ({ companiesList, addNewCompany }) => {
   const formik = useFormik({
     initialValues: {
       name: '',
       income: '',
     },
     onSubmit: ({ name, income }) => {
-      setNewCompany({
+      addNewCompany({
         fullName: name,
         shortName: name,
         income,
         id: uuidv4(),
+        subsidiary: [],
       });
     },
   });
@@ -87,7 +88,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setNewCompany: company => dispatch(setNewCompany(company)),
+  addNewCompany: company => dispatch(addNewCompany(company)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Сompanies);
