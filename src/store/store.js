@@ -1,20 +1,18 @@
-import { combineReducers, createStore } from "redux";
-import СompaniesReducer from "./СompaniesReducer/CompanyReducer";
+import { combineReducers, createStore } from 'redux';
+import СompaniesReducer from './СompaniesReducer/CompanyReducer';
 
 const appReducer = combineReducers({
-    СompaniesReducer
-})
+  СompaniesReducer,
+});
 
-const rootReducer = (state, action) => {
-    return appReducer(state, action)
-}
-
+const rootReducer = (state, action) => appReducer(state, action);
 
 const store = createStore(
-    rootReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+  rootReducer,
+  // eslint-disable-next-line
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+);
 
 window.store = store;
 
-export default store
+export default store;

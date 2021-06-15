@@ -1,35 +1,54 @@
 .company {
-    width: 480px;
-    border: 1px solid black;
-    min-width: 240px;
+  width: 480px;
+  border: 1px solid black;
+  min-width: 240px;
+  padding: 24px;
 }
 
 .companyFullName {
-    font-weight: bold;
+	display: flex;
+  align-items: center;
+  font-weight: bold;
 }
 
 .listStack {
-    list-style-type: none;
-    padding-left: 0;
+  list-style-type: none;
+  padding-left: 0;
 }
-
-.titleBox {
-    display: flex;
-    justify-content: center;
-    position: relative;
-}
-
-.deleteIcon {
-    position: absolute;
-    right: -12px;
-}
-
-.listItem {
+.totalIncome {
     display: flex;
     align-items: center;
-    svg {
-        width: 16px;
-        height: 16px;
-        margin-left: 4px;
-    }
+    justify-content: space-between;
+  }
+.titleBox {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  .typographyBox {
+    display: flex;
+    flex-direction: column;
+  }
+  .deleteCompanyButton {
+	position: absolute;
+  right: -12px;
+}
+}
+
+
+.listItem {
+  display: flex;
+  align-items: center;
+  svg {
+    width: 16px;
+    height: 16px;
+    margin-left: 4px;
+  }
+  .editSubsidiaryButton {
+    min-width: 16px;
+    padding: 0 2px;
+  }
+  .deleteSubsidiaryButton {
+    min-width: 16px;
+    padding: 0 2px;
+  }
 }

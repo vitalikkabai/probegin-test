@@ -4,7 +4,7 @@ module.exports = {
     es6: true,
     jest: true,
   },
-  extends: ['plugin:react/recommended', 'airbnb'],
+  extends: ['plugin:react/recommended', 'plugin:import/errors', 'airbnb'],
   globals: {
     document: true,
     fetch: false,
@@ -21,6 +21,7 @@ module.exports = {
   },
   plugins: ['react', 'react-hooks'],
   rules: {
+    'react/prop-types': 'off',
     'arrow-parens': [2, 'as-needed', { requireForBlockBody: true }],
     'consistent-return': 'off',
     'no-use-before-define': 'off',

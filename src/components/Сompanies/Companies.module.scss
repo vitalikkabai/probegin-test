@@ -1,14 +1,16 @@
-.companies {
+.mainContainer {
+  padding: 24px 240px;
+	background-color: #e5e6e8;
+  .mainTitle {
+    text-align: center;
+  }
+  .companies {
     padding: 24px;
-}
-
-
-.inputArea {
-    display: flex !important;
-    justify-content: center;
-    flex-direction: row;
-}
-
-.input {
-    margin: 24px !important;
+  }
+  .buttonGrid {
+		align-items: center;
+    .addCompanyButton {
+      width: 160px;
+    }
+  }
 }

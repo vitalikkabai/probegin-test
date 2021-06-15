@@ -18,16 +18,19 @@ const AddCompanyDialog = ({
   onAdd,
   onEdit,
   onClose,
+  isAddCompany,
+  isCompanyEdit,
 }) => {
   const onSubmit = ({ name, income }) => {
     const company = {
       name,
-      income,
-      id: data.id || uuidv4(),
-      companyId,
+      income: Number(income),
+      id: data?.id || uuidv4(),
+      ...(isAddCompany || isCompanyEdit
+        ? { fullName: name, subsidiary: data?.subsidiary }
+        : { companyId }),
     };
-
-    if (data.id) {
+    if (data?.id) {
       onEdit(company);
     } else {
       onAdd(company);
@@ -41,8 +44,8 @@ const AddCompanyDialog = ({
       <Formik
         key={JSON.stringify(data)}
         initialValues={{
-          name: data.name || '',
-          income: data.income || '',
+          name: data?.name || '',
+          income: data?.income || '',
         }}
         onSubmit={onSubmit}
       >
@@ -80,13 +83,10 @@ const AddCompanyDialog = ({
               />
             </DialogContent>
             <DialogActions>
-              <Button
-                onClick={onClose}
-                color="primary"
-              >
+              <Button onClick={onClose} color="default">
                 CANCEL
               </Button>
-              <Button type="submit" color="primary">
+              <Button type="submit" color="default">
                 SUBMIT
               </Button>
             </DialogActions>

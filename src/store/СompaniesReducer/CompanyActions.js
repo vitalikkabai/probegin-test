@@ -4,6 +4,7 @@ import {
   ADD_NEW_SUBSIDIARY,
   EDIT_SUBSIDIARY,
   REMOVE_SUBSIDIARY,
+  EDIT_COMPANY,
 } from './CompanyActionType';
 
 export const addNewCompany = company => ({
@@ -29,4 +30,9 @@ export const editSubsidiary = editedSubsidiary => ({
 export const removeSubsidiary = subsidiaryId => ({
   type: REMOVE_SUBSIDIARY,
   payload: subsidiaryId,
+});
+
+export const editCompany = editedCompany => ({
+  type: EDIT_COMPANY,
+  payload: editedCompany,
 });

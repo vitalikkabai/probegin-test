@@ -5,12 +5,13 @@ import {
   ADD_NEW_SUBSIDIARY,
   EDIT_SUBSIDIARY,
   REMOVE_SUBSIDIARY,
+  EDIT_COMPANY,
 } from './CompanyActionType';
 
 const initialState = {
   companies: [
     {
-      shortName: 'Volkswagen',
+      name: 'Volkswagen',
       fullName: 'VOLKSWAGEN AUTO GROUP',
       income: 2518648,
       id: uuidv4(),
@@ -58,7 +59,7 @@ const initialState = {
       ],
     },
     {
-      shortName: 'Toyota',
+      name: 'Toyota',
       fullName: 'TOYOTA MOTOR CORP.',
       income: 2353465,
       id: uuidv4(),
@@ -91,7 +92,7 @@ const initialState = {
       ],
     },
     {
-      shortName: 'Honda',
+      name: 'Honda',
       fullName: 'HONDA MOTOR CO. LTD.',
       income: 2345434,
       id: uuidv4(),
@@ -111,7 +112,7 @@ const CompaniesReducer = (state = initialState, action) => {
     case ADD_NEW_COMPANY: {
       return {
         ...state,
-        companies: [...state.companies, action.payload],
+        companies: [...state.companies, { ...action.payload, subsidiary: [] }],
       };
     }
     case REMOVE_COMPANY: {
@@ -156,9 +157,6 @@ const CompaniesReducer = (state = initialState, action) => {
             ],
           } : company
       ));
-
-      console.log(companies);
-
       return {
         ...state,
         companies,
@@ -178,6 +176,18 @@ const CompaniesReducer = (state = initialState, action) => {
               )),
             ],
           } : company));
+
+      return {
+        ...state,
+        companies,
+      };
+    }
+
+    case EDIT_COMPANY: {
+      const companies = [...state.companies.filter(company => (
+        company.id !== action.payload.id
+      )),
+      action.payload];
 
       return {
         ...state,
